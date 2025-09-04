@@ -106,6 +106,67 @@
             color: #cccccc;
         }
 
+        .twitch-container {
+            margin: 20px 0;
+            width: 100%;
+            max-width: 800px;
+            text-align: center;
+        }
+
+        .twitch-title {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: var(--primary-color);
+        }
+
+        .twitch-player-wrapper {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%; /* 16:9 соотношение сторон */
+            height: 0;
+            overflow: hidden;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+        }
+
+        .twitch-player-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .twitch-controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .twitch-btn {
+            padding: 8px 16px;
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .twitch-btn:hover {
+            background-color: #3a7bc8;
+        }
+
+        .twitch-offline {
+            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.5);
+            border-radius: 10px;
+            text-align: center;
+        }
+
         .links {
             display: flex;
             justify-content: center;
@@ -279,6 +340,23 @@
             </div>
         </div>
 
+        <!-- Добавленный блок Twitch -->
+        <div class="twitch-container">
+            <div class="twitch-title">Трансляция Quddix на Twitch</div>
+            <div class="twitch-player-wrapper">
+                <iframe 
+                    id="twitch-embed" 
+                    src="https://player.twitch.tv/?channel=quddix&parent=localhost&muted=true"
+                    allowfullscreen>
+                </iframe>
+            </div>
+            <div class="twitch-controls">
+                <button class="twitch-btn" id="play-twitch">▶ Воспроизведение</button>
+                <button class="twitch-btn" id="pause-twitch">⏸ Пауза</button>
+                <button class="twitch-btn" id="toggle-mute">🔇 Вкл/Выкл звук</button>
+            </div>
+        </div>
+
         <div class="links">
             <a href="https://forms.gle/uJUFDKFLhv5coGHRA" target="_blank" class="button">Подать заявку</a>
             <a href="https://t.me/quddix/4581" target="_blank" class="button">Подробная информация</a>
@@ -320,6 +398,8 @@
 // Глобальные переменные
 let userTimezone = 'Europe/Warsaw'; // По умолчанию используем часовой пояс Польши
 let targetDate = new Date('2025-09-16T00:00:00Z'); // UTC время
+let twitchPlayer = null;
+let isMuted = true;
 
 // Функция для заполнения выпадающего списка часовых поясов
 function populateTimezones() {
@@ -413,11 +493,51 @@ function loadNotificationPreferences() {
     }
 }
 
+// Функции для управления Twitch плеером
+function initTwitchPlayer() {
+    // Получаем iframe
+    const iframe = document.getElementById('twitch-embed');
+    
+    // Добавляем обработчики событий для кнопок управления
+    document.getElementById('play-twitch').addEventListener('click', function() {
+        iframe.contentWindow.postMessage({action: 'play'}, 'https://player.twitch.tv');
+    });
+    
+    document.getElementById('pause-twitch').addEventListener('click', function() {
+        iframe.contentWindow.postMessage({action: 'pause'}, 'https://player.twitch.tv');
+    });
+    
+    document.getElementById('toggle-mute').addEventListener('click', function() {
+        isMuted = !isMuted;
+        iframe.contentWindow.postMessage({action: 'setMuted', value: isMuted}, 'https://player.twitch.tv');
+        updateMuteButton();
+    });
+    
+    // Обновляем текст кнопки звука
+    function updateMuteButton() {
+        const button = document.getElementById('toggle-mute');
+        button.textContent = isMuted ? '🔇 Вкл звук' : '🔊 Выкл звук';
+    }
+    
+    updateMuteButton();
+    
+    // Слушаем сообщения от плеера
+    window.addEventListener('message', function(event) {
+        if (event.origin !== 'https://player.twitch.tv') return;
+        
+        if (event.data && event.data.muted !== undefined) {
+            isMuted = event.data.muted;
+            updateMuteButton();
+        }
+    });
+}
+
 // Инициализация при загрузке страницы
 document.addEventListener('DOMContentLoaded', function() {
     populateTimezones();
     loadNotificationPreferences();
     countdownTimer(); // Вызываем сразу, чтобы показать таймер
+    initTwitchPlayer(); // Инициализируем Twitch плеер
     
     // Обновляем таймер каждую секунду
     setInterval(countdownTimer, 1000);
