@@ -275,7 +275,7 @@
                 </div>
             </div>
             <div class="timezone-info" id="timezone-info">
-                Определение вашего часового пояса...
+                Используется часовой пояс Польши (Europe/Warsaw) по умолчанию
             </div>
         </div>
 
@@ -318,7 +318,7 @@
 
 <script>
 // Глобальные переменные
-let userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+let userTimezone = 'Europe/Warsaw'; // По умолчанию используем часовой пояс Польши
 let targetDate = new Date('2025-09-16T00:00:00Z'); // UTC время
 
 // Функция для заполнения выпадающего списка часовых поясов
@@ -407,6 +407,9 @@ function loadNotificationPreferences() {
         if (prefs.timezone) {
             userTimezone = prefs.timezone;
         }
+    } else {
+        // Если нет сохраненных настроек, устанавливаем часовой пояс Польши по умолчанию
+        document.getElementById('timezone').value = userTimezone;
     }
 }
 
