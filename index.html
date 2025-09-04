@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Таймер до Открытия ЗБТ</title>
+    <style>
+        :root {
+            --primary-color: #ffcc00;
+            --secondary-color: #4a90e2;
+            --dark-bg: rgba(0, 0, 0, 0.7);
+            --light-text: #ffffff;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            background: url('1afdec38202b2cfc822f29663eb18b99.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: var(--light-text);
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .content {
+            text-align: center;
+            padding: 40px 30px;
+            background-color: var(--dark-bg);
+            border-radius: 15px;
+            width: 100%;
+            max-width: 800px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            font-size: 2.8rem;
+            margin-bottom: 25px;
+            color: var(--primary-color);
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .timer-container {
+            margin: 25px 0;
+            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.4);
+            border-radius: 10px;
+            border: 1px solid var(--primary-color);
+        }
+
+        .timer {
+            font-size: 2.5rem;
+            font-weight: bold;
+            letter-spacing: 1px;
+            color: var(--primary-color);
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .time-unit {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-width: 100px;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+        }
+
+        .time-value {
+            font-size: 2.8rem;
+            line-height: 1;
+        }
+
+        .time-label {
+            font-size: 0.9rem;
+            margin-top: 5px;
+            color: var(--light-text);
+            text-transform: uppercase;
+        }
+
+        .timezone-info {
+            margin-top: 15px;
+            font-size: 1rem;
+            color: #cccccc;
+        }
+
+        .links {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        a.button {
+            display: inline-block;
+            padding: 12px 25px;
+            background-color: var(--secondary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        a.button:hover {
+            background-color: transparent;
+            border-color: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .notification-form {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.5);
+            border-radius: 10px;
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .notification-form h2 {
+            margin-bottom: 15px;
+            color: var(--primary-color);
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 0.9rem;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #444;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        button {
+            padding: 12px 25px;
+            background-color: var(--primary-color);
+            color: black;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #e6b800;
+            transform: translateY(-2px);
+        }
+
+        .footer {
+            margin-top: 30px;
+            text-align: center;
+            font-size: 0.9rem;
+            color: #cccccc;
+        }
+
+        /* Адаптивность */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .timer {
+                font-size: 1.8rem;
+                gap: 10px;
+            }
+            
+            .time-unit {
+                min-width: 70px;
+                padding: 8px;
+            }
+            
+            .time-value {
+                font-size: 2rem;
+            }
+            
+            .time-label {
+                font-size: 0.7rem;
+            }
+            
+            .links {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            a.button {
+                width: 100%;
+                max-width: 300px;
+                margin-bottom: 10px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .content {
+                padding: 20px 15px;
+            }
+            
+            .timer {
+                flex-direction: column;
+                gap: 8px;
+            }
+            
+            .time-unit {
+                width: 100%;
+                flex-direction: row;
+                justify-content: space-between;
+                min-width: auto;
+            }
+            
+            .time-value {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="content">
+        <h1>Ожидайте Открытие ЗБТ!</h1>
+        
+        <div class="timer-container">
+            <div class="timer" id="countdown">
+                <div class="time-unit">
+                    <span class="time-value" id="days">00</span>
+                    <span class="time-label">дней</span>
+                </div>
+                <div class="time-unit">
+                    <span class="time-value" id="hours">00</span>
+                    <span class="time-label">часов</span>
+                </div>
+                <div class="time-unit">
+                    <span class="time-value" id="minutes">00</span>
+                    <span class="time-label">минут</span>
+                </div>
+                <div class="time-unit">
+                    <span class="time-value" id="seconds">00</span>
+                    <span class="time-label">секунд</span>
+                </div>
+            </div>
+            <div class="timezone-info" id="timezone-info">
+                Определение вашего часового пояса...
+            </div>
+        </div>
+
+        <div class="links">
+            <a href="https://forms.gle/uJUFDKFLhv5coGHRA" target="_blank" class="button">Подать заявку</a>
+            <a href="https://t.me/quddix/4581" target="_blank" class="button">Подробная информация</a>
+        </div>
+    </div>
+
+    <div class="notification-form">
+        <h2>Уведомления о начале ЗБТ</h2>
+        <div class="form-group">
+            <label for="email">Email для уведомлений:</label>
+            <input type="email" id="email" placeholder="Ваш email">
+        </div>
+        <div class="form-group">
+            <label for="timezone">Ваш часовой пояс:</label>
+            <select id="timezone">
+                <option value="">Выберите часовой пояс</option>
+                <!-- Опции будут добавлены через JavaScript -->
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="notify">Получать уведомления:</label>
+            <select id="notify">
+                <option value="all">Все уведомления</option>
+                <option value="24">За 24 часа</option>
+                <option value="12">За 12 часов</option>
+                <option value="1">За 1 час</option>
+                <option value="10">За 10 минут</option>
+            </select>
+        </div>
+        <button onclick="saveNotificationPreferences()">Сохранить настройки</button>
+    </div>
+</div>
+
+<div class="footer">
+    <p>Таймер обновляется в реальном времени с учетом вашего часового пояса</p>
+</div>
+
+<script>
+// Глобальные переменные
+let userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+let targetDate = new Date('2025-09-16T00:00:00Z'); // UTC время
+
+// Функция для заполнения выпадающего списка часовых поясов
+function populateTimezones() {
+    const timezoneSelect = document.getElementById('timezone');
+    const timezones = Intl.supportedValuesOf('timeZone');
+    
+    timezones.forEach(tz => {
+        const option = document.createElement('option');
+        option.value = tz;
+        option.textContent = tz;
+        if (tz === userTimezone) {
+            option.selected = true;
+        }
+        timezoneSelect.appendChild(option);
+    });
+}
+
+// Функция для расчета оставшегося времени с учетом часового пояса
+function countdownTimer() {
+    const now = new Date();
+    const localTargetDate = new Date(targetDate.toLocaleString('en-US', { timeZone: userTimezone }));
+    
+    // Разница во времени
+    const remainingTime = localTargetDate - now;
+
+    if (remainingTime <= 0) {
+        document.getElementById('days').textContent = '00';
+        document.getElementById('hours').textContent = '00';
+        document.getElementById('minutes').textContent = '00';
+        document.getElementById('seconds').textContent = '00';
+        document.getElementById('timezone-info').textContent = 'Открытие ЗБТ началось!';
+        return;
+    }
+
+    const days = Math.floor(remainingTime / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((remainingTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((remainingTime % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((remainingTime % (1000 * 60)) / 1000);
+
+    // Обновляем отображение таймера
+    document.getElementById('days').textContent = days.toString().padStart(2, '0');
+    document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
+    document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
+    document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
+    
+    // Обновляем информацию о часовом поясе
+    const options = { timeZone: userTimezone, timeZoneName: 'long' };
+    const timezoneName = new Intl.DateTimeFormat('ru-RU', options).formatToParts(now)
+        .find(part => part.type === 'timeZoneName').value;
+    
+    document.getElementById('timezone-info').textContent = `Ваш часовой пояс: ${timezoneName}. ЗБТ начнется: ${localTargetDate.toLocaleString('ru-RU')}`;
+}
+
+// Функция для сохранения предпочтений уведомлений
+function saveNotificationPreferences() {
+    const email = document.getElementById('email').value;
+    const timezone = document.getElementById('timezone').value;
+    const notifyOption = document.getElementById('notify').value;
+    
+    if (timezone) {
+        userTimezone = timezone;
+        countdownTimer(); // Пересчитываем сразу после изменения
+    }
+    
+    // Здесь будет код для сохранения предпочтений (например, в localStorage или отправка на сервер)
+    const preferences = {
+        email: email,
+        timezone: timezone,
+        notifyOption: notifyOption
+    };
+    
+    localStorage.setItem('zbtNotificationPrefs', JSON.stringify(preferences));
+    alert('Настройки уведомлений сохранены!');
+}
+
+// Функция для загрузки сохраненных предпочтений
+function loadNotificationPreferences() {
+    const savedPrefs = localStorage.getItem('zbtNotificationPrefs');
+    if (savedPrefs) {
+        const prefs = JSON.parse(savedPrefs);
+        document.getElementById('email').value = prefs.email || '';
+        document.getElementById('timezone').value = prefs.timezone || userTimezone;
+        document.getElementById('notify').value = prefs.notifyOption || 'all';
+        
+        if (prefs.timezone) {
+            userTimezone = prefs.timezone;
+        }
+    }
+}
+
+// Инициализация при загрузке страницы
+document.addEventListener('DOMContentLoaded', function() {
+    populateTimezones();
+    loadNotificationPreferences();
+    countdownTimer(); // Вызываем сразу, чтобы показать таймер
+    
+    // Обновляем таймер каждую секунду
+    setInterval(countdownTimer, 1000);
+});
+
+// Функция для отправки уведомлений (заглушка для демонстрации)
+function scheduleNotifications() {
+    // В реальном приложении здесь будет код для планирования уведомлений
+    // через Email, Discord или внутриигровые сообщения
+    console.log('Уведомления запланированы согласно предпочтениям пользователя');
+}
+</script>
+
+</body>
+</html>
