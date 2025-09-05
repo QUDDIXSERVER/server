@@ -62,6 +62,112 @@
             }
         }
 
+        /* Анимация загрузки с японскими символами */
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.9)), 
+                        url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100" opacity="0.1"><text x="50%" y="50%" font-family="Arial" font-size="10" fill="%23ffcc00" text-anchor="middle" dominant-baseline="middle">侍</text></svg>');
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            z-index: 9999;
+            transition: opacity 1s ease-out;
+        }
+
+        .samurai-symbol {
+            font-size: 8rem;
+            color: var(--primary-color);
+            margin-bottom: 2rem;
+            text-shadow: 0 0 10px rgba(255, 204, 0, 0.5);
+            animation: symbolPulse 2s infinite alternate;
+            font-family: 'MS Mincho', 'SimSong', serif;
+        }
+
+        @keyframes symbolPulse {
+            0% {
+                transform: scale(1);
+                text-shadow: 0 0 10px rgba(255, 204, 0, 0.5);
+            }
+            100% {
+                transform: scale(1.1);
+                text-shadow: 0 0 20px rgba(255, 204, 0, 0.8), 0 0 30px rgba(255, 204, 0, 0.6);
+            }
+        }
+
+        .loading-text {
+            font-size: 1.5rem;
+            color: var(--light-text);
+            text-align: center;
+            max-width: 80%;
+            margin-bottom: 2rem;
+        }
+
+        .loading-bar-container {
+            width: 300px;
+            height: 4px;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .loading-bar {
+            height: 100%;
+            width: 0%;
+            background-color: var(--primary-color);
+            border-radius: 4px;
+            transition: width 0.5s ease;
+            box-shadow: 0 0 10px var(--primary-color);
+        }
+
+        .japanese-text {
+            position: absolute;
+            font-size: 1.2rem;
+            color: rgba(255, 204, 0, 0.7);
+            opacity: 0;
+            animation: textAppear 8s infinite;
+            font-family: 'MS Mincho', 'SimSong', serif;
+        }
+
+        @keyframes textAppear {
+            0%, 100% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            10%, 90% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .text-1 {
+            top: 20%;
+            left: 10%;
+            animation-delay: 0.5s;
+        }
+
+        .text-2 {
+            top: 30%;
+            right: 10%;
+            animation-delay: 2s;
+        }
+
+        .text-3 {
+            bottom: 30%;
+            left: 15%;
+            animation-delay: 4s;
+        }
+
+        .text-4 {
+            bottom: 20%;
+            right: 15%;
+            animation-delay: 6s;
+        }
+
         .container {
             width: 100%;
             max-width: 1200px;
@@ -69,6 +175,8 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            opacity: 0;
+            transition: opacity 1s ease;
         }
 
         .content {
@@ -463,6 +571,129 @@
             z-index: 1000;
         }
 
+        /* Новые стили для модального окна правил */
+        .rules-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.85);
+            z-index: 1000;
+            overflow-y: auto;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .rules-content {
+            position: relative;
+            background: linear-gradient(135deg, #1a1a1a, #2a2a2a);
+            margin: 5% auto;
+            padding: 40px;
+            width: 90%;
+            max-width: 800px;
+            border-radius: 15px;
+            box-shadow: 0 5px 25px rgba(255, 204, 0, 0.3);
+            border: 1px solid var(--primary-color);
+            animation: slideIn 0.5s ease-out;
+            color: var(--light-text);
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .close-rules {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 28px;
+            font-weight: bold;
+            color: var(--primary-color);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .close-rules:hover {
+            color: #ffdd33;
+            transform: rotate(90deg);
+        }
+
+        .rules-title {
+            text-align: center;
+            color: var(--primary-color);
+            margin-bottom: 30px;
+            font-size: 2.2rem;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .rules-section {
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255, 204, 0, 0.2);
+        }
+
+        .rules-section:last-child {
+            border-bottom: none;
+        }
+
+        .rules-section-title {
+            color: var(--primary-color);
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .rules-section-title::before {
+            content: "•";
+            margin-right: 10px;
+            font-size: 2rem;
+            color: var(--secondary-color);
+        }
+
+        .rules-list {
+            list-style-type: none;
+            padding-left: 20px;
+        }
+
+        .rules-list li {
+            margin-bottom: 10px;
+            position: relative;
+            padding-left: 25px;
+            line-height: 1.5;
+        }
+
+        .rules-list li::before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+
+        .rules-highlight {
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+
+        .rules-notice {
+            margin-top: 30px;
+            padding: 15px;
+            background-color: rgba(255, 204, 0, 0.1);
+            border-radius: 8px;
+            border-left: 4px solid var(--primary-color);
+            text-align: center;
+            font-style: italic;
+        }
+
         /* Адаптивность */
         @media (max-width: 768px) {
             h1 {
@@ -497,6 +728,32 @@
                 max-width: 300px;
                 margin-bottom: 10px;
             }
+            
+            .rules-content {
+                padding: 30px 20px;
+                margin: 10% auto;
+                width: 95%;
+            }
+            
+            .rules-title {
+                font-size: 1.8rem;
+            }
+            
+            .rules-section-title {
+                font-size: 1.2rem;
+            }
+            
+            .samurai-symbol {
+                font-size: 5rem;
+            }
+            
+            .loading-text {
+                font-size: 1.2rem;
+            }
+            
+            .japanese-text {
+                font-size: 1rem;
+            }
         }
 
         @media (max-width: 480px) {
@@ -519,15 +776,40 @@
             .time-value {
                 font-size: 1.8rem;
             }
+            
+            .samurai-symbol {
+                font-size: 4rem;
+            }
+            
+            .loading-text {
+                font-size: 1rem;
+            }
+            
+            .japanese-text {
+                font-size: 0.9rem;
+            }
         }
     </style>
 </head>
 <body>
 
+<!-- Экран загрузки с японскими символами -->
+<div class="loading-screen" id="loadingScreen">
+    <div class="samurai-symbol">侍</div>
+    <div class="loading-text">Готовимся к великому путешествию в мир самураев...</div>
+    <div class="loading-bar-container">
+        <div class="loading-bar" id="loadingBar"></div>
+    </div>
+    <div class="japanese-text text-1">武士道 - Путь воина</div>
+    <div class="japanese-text text-2">忍 - Терпение</div>
+    <div class="japanese-text text-3">勇気 - Мужество</div>
+    <div class="japanese-text text-4">名誉 - Честь</div>
+</div>
+
 <!-- Анимированный фон -->
 <div class="animated-bg" id="animated-bg"></div>
 
-<div class="container">
+<div class="container" id="mainContainer">
     <div class="content">
         <h1>Ожидайте Открытие ЗБТ!</h1>
         
@@ -561,6 +843,94 @@
         <div class="links">
             <a href="https://forms.gle/uJUFDKFLhv5coGHRA" target="_blank" class="button">Подать заявку</a>
             <a href="https://t.me/quddix/4581" target="_blank" class="button">Подробная информация</a>
+            <!-- Новая кнопка Правила -->
+            <a href="#" class="button" onclick="openRules(); return false;">Правила</a>
+        </div>
+    </div>
+
+    <!-- Модальное окно с правилами -->
+    <div id="rulesModal" class="rules-modal">
+        <div class="rules-content">
+            <span class="close-rules" onclick="closeRules()">&times;</span>
+            <h2 class="rules-title">Правила Проекта</h2>
+            
+            <div class="rules-section">
+                <h3 class="rules-section-title">Общие правила</h3>
+                <ul class="rules-list">
+                    <li>Уважай других игроков.</li>
+                    <li>Запрещены оскорбления, токсичность, провокации и спам.</li>
+                    <li>Запрещена реклама сторонних серверов, ссылок и каналов.</li>
+                    <li>Не выдавай себя за администрацию.</li>
+                    <li>Администрация имеет право выносить решения по ситуации, даже если это не прописано в правилах.</li>
+                </ul>
+            </div>
+            
+            <div class="rules-section">
+                <h3 class="rules-section-title">Геймплей и поведение</h3>
+                <ul class="rules-list">
+                    <li>Гриферство строго запрещено (ломание чужих построек, кража ресурсов, убийства без согласия и т.д.).</li>
+                    <li>Не занимай чужую территорию без разрешения владельца.</li>
+                    <li>Не спавни злоумышленно мобов или лаг-машины (например, чрезмерные фермы с энтити).</li>
+                    <li>Используй редстоун с умом — не создавай схемы, вызывающие лаги.</li>
+                    <li>PvP только по обоюдному согласию. Без дуэлей — без атак.</li>
+                </ul>
+            </div>
+            
+            <div class="rules-section">
+                <h3 class="rules-section-title">Строительство</h3>
+                <ul class="rules-list">
+                    <li>Запрещено строить некрасивые "грязные" столбы, кубы из грязи, лавовые кресты и т.п.</li>
+                    <li>Общественные места (спавн, дороги, хабы) нельзя портить или перестраивать без согласования.</li>
+                    <li>Уважай стиль и усилия других игроков — не тролль их постройки.</li>
+                    <li>Прежде чем строиться рядом с кем-то — спроси разрешения.</li>
+                </ul>
+            </div>
+            
+            <div class="rules-section">
+                <h3 class="rules-section-title">Технические ограничения</h3>
+                <ul class="rules-list">
+                    <li>Авто-кликеры, макросы и сторонние скрипты запрещены.</li>
+                    <li>Запрещены читы, x-ray, баги на дюп и любые другие несправедливые преимущества.</li>
+                    <li>Использование багов игры запрещено. Нашёл баг — сообщи админам.</li>
+                </ul>
+            </div>
+            
+            <div class="rules-section">
+                <h3 class="rules-section-title">Ивенты и торговля</h3>
+                <ul class="rules-list">
+                    <li>Мошенничество на ивентах и в торговле запрещено.</li>
+                    <li>Уважай правила и формат ивентов, не мешай другим участвовать.</li>
+                    <li>Торговые зоны — только в отведённых местах или по согласованию с админом.</li>
+                </ul>
+            </div>
+            
+            <div class="rules-section">
+                <h3 class="rules-section-title">Администрация</h3>
+                <ul class="rules-list">
+                    <li>Решение администрации — окончательное.</li>
+                    <li>За нарушение правил возможен варн, кик, бан или вайп.</li>
+                    <li>Если не уверен — спроси. Лучше уточнить, чем попасть в бан.</li>
+                </ul>
+            </div>
+            
+            <div class="rules-section">
+                <h3 class="rules-section-title">Чат и общение</h3>
+                <ul class="rules-list">
+                    <li>За запрещены темы: политика, насилие, религиозные споры, NSFW, пропаганда наркотиков и другие запрещённые законом материалы.</li>
+                    <li>Не флуди — не отправляй одинаковые или бессмысленные сообщения подряд.</li>
+                    <li>Запрещён чрезмерный КАПС (ПИСЬМО ВОТ ТАКИМИ БУКВАМИ).</li>
+                    <li>Чат — не место для драк. Решайте конфликты спокойно или через администрацию.</li>
+                    <li>Не используй мат, завуалированный мат или оскорбительные прозвища.</li>
+                    <li>Мемы и шутки — хорошо, но не за счёт других игроков.</li>
+                    <li>Реклама, ссылки и внешние IP — только с разрешения администрации.</li>
+                    <li>Использование символов, иероглифов или форматирования для нарушения читаемости — запрещено.</li>
+                </ul>
+            </div>
+            
+            <!-- Добавленное уведомление -->
+            <div class="rules-notice">
+                <p>Правила могут изменяться со временем. Каждый игрок, играя на сервере, соглашается с правилами сервера.</p>
+            </div>
         </div>
     </div>
 
@@ -600,6 +970,37 @@
 let userTimezone = 'Europe/Warsaw'; // По умолчанию используем часовой пояс Польши
 let targetDate = new Date('2025-09-16T00:00:00Z'); // UTC время
 let lastSeconds = 0;
+
+// Функция для отображения экрана загрузки
+function showLoadingScreen() {
+    const loadingScreen = document.getElementById('loadingScreen');
+    const loadingBar = document.getElementById('loadingBar');
+    const mainContainer = document.getElementById('mainContainer');
+    
+    // Показываем экран загрузки
+    loadingScreen.style.display = 'flex';
+    mainContainer.style.opacity = '0';
+    
+    // Анимируем прогресс бар
+    let progress = 0;
+    const interval = setInterval(() => {
+        progress += Math.random() * 10;
+        if (progress >= 100) {
+            progress = 100;
+            clearInterval(interval);
+            
+            // Завершаем загрузку
+            setTimeout(() => {
+                loadingScreen.style.opacity = '0';
+                setTimeout(() => {
+                    loadingScreen.style.display = 'none';
+                    mainContainer.style.opacity = '1';
+                }, 1000);
+            }, 500);
+        }
+        loadingBar.style.width = progress + '%';
+    }, 200);
+}
 
 // Функция для заполнения выпадающего списка часовых поясов
 function populateTimezones() {
@@ -778,15 +1179,43 @@ function createConfetti() {
     }
 }
 
+// Функции для открытия/закрытия модального окна с правилами
+function openRules() {
+    const modal = document.getElementById('rulesModal');
+    modal.style.display = 'block';
+    document.body.style.overflow = 'hidden'; // Запрещаем прокрутку страницы
+    createConfetti(); // Добавляем немного конфетти для эффекта
+}
+
+function closeRules() {
+    const modal = document.getElementById('rulesModal');
+    modal.style.display = 'none';
+    document.body.style.overflow = 'auto'; // Возвращаем прокрутку страницы
+}
+
+// Закрытие модального окна при клике вне его области
+window.onclick = function(event) {
+    const modal = document.getElementById('rulesModal');
+    if (event.target == modal) {
+        closeRules();
+    }
+}
+
 // Инициализация при загрузке страницы
 document.addEventListener('DOMContentLoaded', function() {
-    populateTimezones();
-    loadNotificationPreferences();
-    createParticles(); // Создаем частицы фона
-    countdownTimer(); // Вызываем сразу, чтобы показать таймер
+    // Показываем экран загрузки
+    showLoadingScreen();
     
-    // Обновляем таймер каждую секунду
-    setInterval(countdownTimer, 1000);
+    // Инициализируем остальные компоненты после загрузки
+    setTimeout(() => {
+        populateTimezones();
+        loadNotificationPreferences();
+        createParticles(); // Создаем частицы фона
+        countdownTimer(); // Вызываем сразу, чтобы показать таймер
+        
+        // Обновляем таймер каждую секунду
+        setInterval(countdownTimer, 1000);
+    }, 3500); // Задержка для завершения анимации загрузки
 });
 
 // Функция для отправки уведомлений (заглушка для демонстрации)
