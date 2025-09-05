@@ -536,12 +536,12 @@
         }
 
         @keyframes ripple {
-            0% {
-                transform: scale(0, 0);
-                opacity: 0.5;
+            from {
+                transform: scale(0);
+                opacity: 1;
             }
-            100% {
-                transform: scale(30, 30);
+            to {
+                transform: scale(20);
                 opacity: 0;
             }
         }
@@ -694,6 +694,116 @@
             font-style: italic;
         }
 
+        /* Стили для раздела модов */
+        .mods-section {
+            margin-top: 30px;
+            padding: 30px;
+            background-color: rgba(0, 0, 0, 0.5);
+            border-radius: 15px;
+            width: 100%;
+            max-width: 800px;
+            text-align: center;
+            animation: slideUp 1s ease-out;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .mods-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background: var(--primary-color);
+            transform: scaleY(0);
+            transform-origin: top;
+            animation: growLine 2s forwards;
+            animation-delay: 1s;
+        }
+
+        .mods-title {
+            color: var(--primary-color);
+            margin-bottom: 25px;
+            font-size: 2rem;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .mods-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .mod-card {
+            background: linear-gradient(135deg, rgba(26, 26, 26, 0.8), rgba(42, 42, 42, 0.8));
+            border-radius: 10px;
+            padding: 20px;
+            border: 1px solid rgba(255, 204, 0, 0.3);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .mod-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            border-color: var(--primary-color);
+        }
+
+        .mod-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent, rgba(255, 204, 0, 0.1), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.6s ease;
+        }
+
+        .mod-card:hover::before {
+            transform: translateX(100%);
+        }
+
+        .mod-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            color: var(--primary-color);
+        }
+
+        .mod-name {
+            font-size: 1.2rem;
+            color: var(--light-text);
+            margin-bottom: 10px;
+        }
+
+        .mod-description {
+            font-size: 0.9rem;
+            color: #cccccc;
+            margin-bottom: 15px;
+            line-height: 1.4;
+        }
+
+        .mod-download {
+            display: inline-block;
+            padding: 8px 20px;
+            background-color: var(--primary-color);
+            color: black;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .mod-download:hover {
+            background-color: #e6b800;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 204, 0, 0.3);
+        }
+
         /* Адаптивность */
         @media (max-width: 768px) {
             h1 {
@@ -754,6 +864,10 @@
             .japanese-text {
                 font-size: 1rem;
             }
+            
+            .mods-grid {
+                grid-template-columns: 1fr;
+            }
         }
 
         @media (max-width: 480px) {
@@ -787,6 +901,14 @@
             
             .japanese-text {
                 font-size: 0.9rem;
+            }
+            
+            .mods-section {
+                padding: 20px 15px;
+            }
+            
+            .mods-title {
+                font-size: 1.6rem;
             }
         }
     </style>
@@ -845,6 +967,38 @@
             <a href="https://t.me/quddix/4581" target="_blank" class="button">Подробная информация</a>
             <!-- Новая кнопка Правила -->
             <a href="#" class="button" onclick="openRules(); return false;">Правила</a>
+            <!-- Новая кнопка Моды -->
+            <a href="#mods" class="button">Моды</a>
+        </div>
+    </div>
+
+    <!-- Новый раздел с модами -->
+    <div id="mods" class="mods-section">
+        <h2 class="mods-title">Рекомендуемые моды</h2>
+        <p>Для лучшего игрового опыта рекомендуем установить следующие моды:</p>
+        
+        <div class="mods-grid">
+            <div class="mod-card">
+                <div class="mod-icon">🎤</div>
+                <h3 class="mod-name">Голосовой чат</h3>
+                <p class="mod-description">Мод для голосового общения в игре. Совместим с Forge 1.20.1.</p>
+                <a href="https://ru-minecraft.ru/engine/download.php?id=203885" target="_blank" class="mod-download">Скачать</a>
+            </div>
+            
+            <!-- Можно добавить больше модов в будущем -->
+            <div class="mod-card">
+                <div class="mod-icon">🎮</div>
+                <h3 class="mod-name">Оптимизация</h3>
+                <p class="mod-description">Улучшает производительность игры и стабильность работы.</p>
+                <a href="#" class="mod-download">Скоро</a>
+            </div>
+            
+            <div class="mod-card">
+                <div class="mod-icon">✨</div>
+                <h3 class="mod-name">Графика</h3>
+                <p class="mod-description">Улучшает визуальную составляющую игры без потери производительности.</p>
+                <a href="#" class="mod-download">Скоро</a>
+            </div>
         </div>
     </div>
 
@@ -916,7 +1070,7 @@
             <div class="rules-section">
                 <h3 class="rules-section-title">Чат и общение</h3>
                 <ul class="rules-list">
-                    <li>За запрещены темы: политика, насилие, религиозные споры, NSFW, пропаганда наркотиков и другие запрещённые законом материалы.</li>
+                    <li>Запрещены темы: политика, насилие, религиозные споры, NSFW, пропаганда наркотиков и другие запрещённые законом материалы.</li>
                     <li>Не флуди — не отправляй одинаковые или бессмысленные сообщения подряд.</li>
                     <li>Запрещён чрезмерный КАПС (ПИСЬМО ВОТ ТАКИМИ БУКВАМИ).</li>
                     <li>Чат — не место для драк. Решайте конфликты спокойно или через администрацию.</li>
@@ -995,6 +1149,16 @@ function showLoadingScreen() {
                 setTimeout(() => {
                     loadingScreen.style.display = 'none';
                     mainContainer.style.opacity = '1';
+                    
+                    // Плавная прокрутка к якорю, если он есть в URL
+                    if (window.location.hash) {
+                        setTimeout(() => {
+                            const target = document.querySelector(window.location.hash);
+                            if (target) {
+                                target.scrollIntoView({ behavior: 'smooth' });
+                            }
+                        }, 300);
+                    }
                 }, 1000);
             }, 500);
         }
