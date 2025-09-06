@@ -415,6 +415,7 @@
             height: 100%;
             background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
             transition: 0.5s;
+            pointer-events: none;
         }
 
         a.button:hover::before {
@@ -729,79 +730,11 @@
             text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
         }
 
-        .mods-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            margin-top: 20px;
-        }
-
-        .mod-card {
-            background: linear-gradient(135deg, rgba(26, 26, 26, 0.8), rgba(42, 42, 42, 0.8));
-            border-radius: 10px;
-            padding: 20px;
-            border: 1px solid rgba(255, 204, 0, 0.3);
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .mod-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
-            border-color: var(--primary-color);
-        }
-
-        .mod-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(45deg, transparent, rgba(255, 204, 0, 0.1), transparent);
-            transform: translateX(-100%);
-            transition: transform 0.6s ease;
-        }
-
-        .mod-card:hover::before {
-            transform: translateX(100%);
-        }
-
-        .mod-icon {
-            font-size: 3rem;
-            margin-bottom: 15px;
+        .soon-text {
+            font-size: 1.5rem;
             color: var(--primary-color);
-        }
-
-        .mod-name {
-            font-size: 1.2rem;
-            color: var(--light-text);
-            margin-bottom: 10px;
-        }
-
-        .mod-description {
-            font-size: 0.9rem;
-            color: #cccccc;
-            margin-bottom: 15px;
-            line-height: 1.4;
-        }
-
-        .mod-download {
-            display: inline-block;
-            padding: 8px 20px;
-            background-color: var(--primary-color);
-            color: black;
-            text-decoration: none;
-            border-radius: 5px;
-            font-weight: bold;
-            transition: all 0.3s ease;
-        }
-
-        .mod-download:hover {
-            background-color: #e6b800;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(255, 204, 0, 0.3);
+            margin: 30px 0;
+            animation: pulse 2s infinite;
         }
 
         /* Адаптивность */
@@ -865,8 +798,8 @@
                 font-size: 1rem;
             }
             
-            .mods-grid {
-                grid-template-columns: 1fr;
+            .soon-text {
+                font-size: 1.2rem;
             }
         }
 
@@ -909,6 +842,10 @@
             
             .mods-title {
                 font-size: 1.6rem;
+            }
+            
+            .soon-text {
+                font-size: 1.1rem;
             }
         }
     </style>
@@ -975,31 +912,7 @@
     <!-- Новый раздел с модами -->
     <div id="mods" class="mods-section">
         <h2 class="mods-title">Рекомендуемые моды</h2>
-        <p>Для лучшего игрового опыта рекомендуем установить следующие моды:</p>
-        
-        <div class="mods-grid">
-            <div class="mod-card">
-                <div class="mod-icon">🎤</div>
-                <h3 class="mod-name">Голосовой чат</h3>
-                <p class="mod-description">Мод для голосового общения в игре. Совместим с Forge 1.20.1.</p>
-                <a href="https://www.curseforge.com/minecraft/mc-mods/simple-voice-chat/download/6962903" target="_blank" class="mod-download">Скачать</a>
-            </div>
-            
-            <!-- Можно добавить больше модов в будущем -->
-            <div class="mod-card">
-                <div class="mod-icon">🎮</div>
-                <h3 class="mod-name">Оптимизация</h3>
-                <p class="mod-description">Улучшает производительность игры и стабильность работы.</p>
-                <a href="#" class="mod-download">Скоро</a>
-            </div>
-            
-            <div class="mod-card">
-                <div class="mod-icon">✨</div>
-                <h3 class="mod-name">Графика</h3>
-                <p class="mod-description">Улучшает визуальную составляющую игры без потери производительности.</p>
-                <a href="#" class="mod-download">Скоро</a>
-            </div>
-        </div>
+        <div class="soon-text">Скоро</div>
     </div>
 
     <!-- Модальное окно с правилами -->
@@ -1054,7 +967,7 @@
                 <ul class="rules-list">
                     <li>Мошенничество на ивентах и в торговле запрещено.</li>
                     <li>Уважай правила и формат ивентов, не мешай другим участвовать.</li>
-                    <li>Торговые зоны — только в отведённых местах или по согласованию с админом.</li>
+                    <li>Торговые зоны — только в отведённых местас или по согласованию с админом.</li>
                 </ul>
             </div>
             
@@ -1073,7 +986,7 @@
                     <li>Запрещены темы: политика, насилие, религиозные споры, NSFW, пропаганда наркотиков и другие запрещённые законом материалы.</li>
                     <li>Не флуди — не отправляй одинаковые или бессмысленные сообщения подряд.</li>
                     <li>Запрещён чрезмерный КАПС (ПИСЬМО ВОТ ТАКИМИ БУКВАМИ).</li>
-                    <li>Чат — не место для драк. Решайте конфликты спокойно или через администрацию.</li>
+                    <li>Чат — не место для драк. Решайте конфликты спокойно или через администрация.</li>
                     <li>Не используй мат, завуалированный мат или оскорбительные прозвища.</li>
                     <li>Мемы и шутки — хорошо, но не за счёт других игроков.</li>
                     <li>Реклама, ссылки и внешние IP — только с разрешения администрации.</li>
