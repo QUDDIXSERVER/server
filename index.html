@@ -254,134 +254,42 @@
             }
         }
 
-        /* СТИЛИ МАЙНКРАФТ БЛОКА - УВЕЛИЧЕНЫ ДЛЯ ЛУЧШЕЙ ВИДИМОСТИ */
-        .minecraft-timer-container {
+        .timer-container {
             margin: 25px 0;
             padding: 20px;
+            background-color: rgba(0, 0, 0, 0.4);
+            border-radius: 10px;
+            border: 1px solid var(--primary-color);
             position: relative;
             overflow: hidden;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            perspective: 1000px;
         }
 
-        .minecraft-block {
-            width: 400px;
-            height: 400px;
-            position: relative;
-            transform-style: preserve-3d;
-            transition: all 1s ease;
-            animation: blockFloat 4s infinite ease-in-out;
-        }
-
-        @keyframes blockFloat {
-            0%, 100% { transform: translateY(0) rotateX(5deg) rotateY(5deg); }
-            50% { transform: translateY(-10px) rotateX(-5deg) rotateY(-5deg); }
-        }
-
-        .block-face {
+        .timer-container::after {
+            content: '';
             position: absolute;
-            width: 100%;
-            height: 100%;
-            background-size: 32px 32px;
-            image-rendering: pixelated;
-            border: 2px solid #000;
-            box-sizing: border-box;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
+            top: -10px;
+            left: -10px;
+            right: -10px;
+            bottom: -10px;
+            background: linear-gradient(45deg, #ffcc00, #4a90e2, #ffcc00);
+            background-size: 400% 400%;
+            z-index: -1;
+            animation: gradientShift 3s ease infinite;
+            border-radius: 15px;
+            filter: blur(15px);
+            opacity: 0.3;
         }
 
-        .block-front {
-            transform: translateZ(200px);
-            background-color: #7ab86b;
-            background-image: 
-                linear-gradient(45deg, rgba(0,0,0,0.1) 25%, transparent 25%, transparent 75%, rgba(0,0,0,0.1) 75%, rgba(0,0,0,0.1)),
-                linear-gradient(-45deg, rgba(0,0,0,0.1) 25%, transparent 25%, transparent 75%, rgba(0,0,0,0.1) 75%, rgba(0,0,0,0.1));
-            box-shadow: 0 0 20px rgba(122, 184, 107, 0.8), inset 0 0 20px rgba(0,0,0,0.2);
-        }
-
-        .block-top {
-            transform: rotateX(90deg) translateZ(200px);
-            background-color: #8bc34a;
-            background-image: 
-                linear-gradient(45deg, rgba(0,0,0,0.15) 25%, transparent 25%, transparent 75%, rgba(0,0,0,0.15) 75%, rgba(0,0,0,0.15)),
-                linear-gradient(-45deg, rgba(0,0,0,0.15) 25%, transparent 25%, transparent 75%, rgba(0,0,0,0.15) 75%, rgba(0,0,0,0.15));
-        }
-
-        .block-right {
-            transform: rotateY(90deg) translateZ(200px);
-            background-color: #6a9e5e;
-            background-image: 
-                linear-gradient(45deg, rgba(0,0,0,0.2) 25%, transparent 25%, transparent 75%, rgba(0,0,0,0.2) 75%, rgba(0,0,0,0.2)),
-                linear-gradient(-45deg, rgba(0,0,0,0.2) 25%, transparent 25%, transparent 75%, rgba(0,0,0,0.2) 75%, rgba(0,0,0,0.2));
-        }
-
-        /* Стадии разрушения блока */
-        .block-stage-0 { opacity: 1; filter: brightness(1); }
-        .block-stage-1 { opacity: 0.9; filter: brightness(0.9); }
-        .block-stage-2 { opacity: 0.8; filter: brightness(0.8); }
-        .block-stage-3 { opacity: 0.7; filter: brightness(0.7); }
-        .block-stage-4 { opacity: 0.6; filter: brightness(0.6); }
-        .block-stage-5 { opacity: 0.5; filter: brightness(0.5); }
-
-        /* Трещины на блоке */
-        .block-crack {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: 
-                radial-gradient(circle at 30% 35%, transparent 5%, rgba(0,0,0,0.3) 6%, transparent 7%),
-                radial-gradient(circle at 70% 65%, transparent 5%, rgba(0,0,0,0.3) 6%, transparent 7%),
-                radial-gradient(circle at 40% 75%, transparent 5%, rgba(0,0,0,0.3) 6%, transparent 7%);
-            opacity: 0;
-            transition: opacity 1s ease;
-            pointer-events: none;
-        }
-
-        .crack-stage-1 { opacity: 0.2; }
-        .crack-stage-2 { 
-            opacity: 0.4; 
-            background-image: 
-                radial-gradient(circle at 30% 35%, transparent 5%, rgba(0,0,0,0.4) 6%, transparent 7%),
-                radial-gradient(circle at 70% 65%, transparent 5%, rgba(0,0,0,0.4) 6%, transparent 7%),
-                radial-gradient(circle at 40% 75%, transparent 5%, rgba(0,0,0,0.4) 6%, transparent 7%),
-                linear-gradient(45deg, transparent 48%, rgba(0,0,0,0.3) 49%, transparent 50%);
-        }
-        .crack-stage-3 { 
-            opacity: 0.6; 
-            background-image: 
-                radial-gradient(circle at 30% 35%, transparent 5%, rgba(0,0,0,0.5) 6%, transparent 7%),
-                radial-gradient(circle at 70% 65%, transparent 5%, rgba(0,0,0,0.5) 6%, transparent 7%),
-                radial-gradient(circle at 40% 75%, transparent 5%, rgba(0,0,0,0.5) 6%, transparent 7%),
-                linear-gradient(45deg, transparent 48%, rgba(0,0,0,0.4) 49%, transparent 50%),
-                linear-gradient(-45deg, transparent 48%, rgba(0,0,0,0.4) 49%, transparent 50%);
-        }
-        .crack-stage-4 { 
-            opacity: 0.8; 
-            background-image: 
-                radial-gradient(circle at 30% 35%, transparent 4%, rgba(0,0,0,0.6) 5%, transparent 6%),
-                radial-gradient(circle at 70% 65%, transparent 4%, rgba(0,0,0,0.6) 5%, transparent 6%),
-                radial-gradient(circle at 40% 75%, transparent 4%, rgba(0,0,0,0.6) 5%, transparent 6%),
-                linear-gradient(45deg, transparent 47%, rgba(0,0,0,0.5) 48%, transparent 49%),
-                linear-gradient(-45deg, transparent 47%, rgba(0,0,0,0.5) 48%, transparent 49%),
-                linear-gradient(90deg, transparent 47%, rgba(0,0,0,0.4) 48%, transparent 49%);
-        }
-        .crack-stage-5 { 
-            opacity: 1; 
-            background-image: 
-                radial-gradient(circle at 30% 35%, transparent 3%, rgba(0,0,0,0.7) 4%, transparent 5%),
-                radial-gradient(circle at 70% 65%, transparent 3%, rgba(0,0,0,0.7) 4%, transparent 5%),
-                radial-gradient(circle at 40% 75%, transparent 3%, rgba(0,0,0,0.7) 4%, transparent 5%),
-                linear-gradient(45deg, transparent 46%, rgba(0,0,0,0.6) 47%, transparent 48%),
-                linear-gradient(-45deg, transparent 46%, rgba(0,0,0,0.6) 47%, transparent 48%),
-                linear-gradient(90deg, transparent 46%, rgba(0,0,0,0.5) 47%, transparent 48%),
-                linear-gradient(0deg, transparent 46%, rgba(0,0,0,0.5) 47%, transparent 48%);
+        @keyframes gradientShift {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
         }
 
         .timer {
@@ -393,9 +301,6 @@
             justify-content: center;
             flex-wrap: wrap;
             gap: 15px;
-            text-shadow: 2px 2px 0 #000, -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000;
-            z-index: 10;
-            position: relative;
         }
 
         .time-unit {
@@ -404,11 +309,9 @@
             align-items: center;
             min-width: 100px;
             padding: 10px;
-            background: rgba(0, 0, 0, 0.5);
+            background: rgba(0, 0, 0, 0.3);
             border-radius: 8px;
             transition: transform 0.3s ease;
-            border: 2px solid #5a4d32;
-            box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
         }
 
         .time-unit:hover {
@@ -420,7 +323,6 @@
             font-size: 2.8rem;
             line-height: 1;
             position: relative;
-            font-family: 'Courier New', monospace;
         }
 
         .time-value.changing {
@@ -444,19 +346,12 @@
             margin-top: 5px;
             color: var(--light-text);
             text-transform: uppercase;
-            text-shadow: 1px 1px 0 #000;
         }
 
         .timezone-info {
             margin-top: 15px;
             font-size: 1rem;
             color: #cccccc;
-            text-shadow: 1px 1px 0 #000;
-            z-index: 10;
-            position: relative;
-            background: rgba(0,0,0,0.5);
-            padding: 5px 10px;
-            border-radius: 5px;
         }
 
         /* Анимированный разделитель */
@@ -843,45 +738,9 @@
         }
 
         /* Адаптивность */
-        @media (max-width: 900px) {
-            .minecraft-block {
-                width: 350px;
-                height: 350px;
-            }
-            
-            .block-front, .block-top, .block-right {
-                transform: translateZ(175px);
-            }
-            
-            .block-top {
-                transform: rotateX(90deg) translateZ(175px);
-            }
-            
-            .block-right {
-                transform: rotateY(90deg) translateZ(175px);
-            }
-        }
-
         @media (max-width: 768px) {
             h1 {
                 font-size: 2rem;
-            }
-            
-            .minecraft-block {
-                width: 320px;
-                height: 320px;
-            }
-            
-            .block-front, .block-top, .block-right {
-                transform: translateZ(160px);
-            }
-            
-            .block-top {
-                transform: rotateX(90deg) translateZ(160px);
-            }
-            
-            .block-right {
-                transform: rotateY(90deg) translateZ(160px);
             }
             
             .timer {
@@ -949,23 +808,6 @@
                 padding: 20px 15px;
             }
             
-            .minecraft-block {
-                width: 280px;
-                height: 280px;
-            }
-            
-            .block-front, .block-top, .block-right {
-                transform: translateZ(140px);
-            }
-            
-            .block-top {
-                transform: rotateX(90deg) translateZ(140px);
-            }
-            
-            .block-right {
-                transform: rotateY(90deg) translateZ(140px);
-            }
-            
             .timer {
                 flex-direction: column;
                 gap: 8px;
@@ -1030,31 +872,24 @@
     <div class="content">
         <h1>Ожидайте Открытие ЗБТ!</h1>
         
-        <div class="minecraft-timer-container">
-            <div class="minecraft-block" id="minecraftBlock">
-                <div class="block-face block-front">
-                    <div class="timer" id="countdown">
-                        <div class="time-unit">
-                            <span class="time-value" id="days">00</span>
-                            <span class="time-label">дней</span>
-                        </div>
-                        <div class="time-unit">
-                            <span class="time-value" id="hours">00</span>
-                            <span class="time-label">часов</span>
-                        </div>
-                        <div class="time-unit">
-                            <span class="time-value" id="minutes">00</span>
-                            <span class="time-label">минут</span>
-                        </div>
-                        <div class="time-unit">
-                            <span class="time-value" id="seconds">00</span>
-                            <span class="time-label">секунд</span>
-                        </div>
-                    </div>
+        <div class="timer-container">
+            <div class="timer" id="countdown">
+                <div class="time-unit">
+                    <span class="time-value" id="days">00</span>
+                    <span class="time-label">дней</span>
                 </div>
-                <div class="block-face block-top"></div>
-                <div class="block-face block-right"></div>
-                <div class="block-crack" id="blockCrack"></div>
+                <div class="time-unit">
+                    <span class="time-value" id="hours">00</span>
+                    <span class="time-label">часов</span>
+                </div>
+                <div class="time-unit">
+                    <span class="time-value" id="minutes">00</span>
+                    <span class="time-label">минут</span>
+                </div>
+                <div class="time-unit">
+                    <span class="time-value" id="seconds">00</span>
+                    <span class="time-label">секунд</span>
+                </div>
             </div>
             <div class="timezone-info" id="timezone-info">
                 Используется часовой пояс Польши (Europe/Warsaw) по умолчанию
@@ -1091,7 +926,7 @@
                 <ul class="rules-list">
                     <li>Уважай других игроков.</li>
                     <li>Запрещены оскорбления, токсичность, провокации и спам.</li>
-                    <li>За запрещена реклама сторонних серверов, ссылок и каналов.</li>
+                    <li>Запрещена реклама сторонних серверов, ссылок и каналов.</li>
                     <li>Не выдавай себя за администрацию.</li>
                     <li>Администрация имеет право выносить решения по ситуации, даже если это не прописано в правилах.</li>
                 </ul>
@@ -1161,7 +996,7 @@
             
             <!-- Добавленное уведомление -->
             <div class="rules-notice">
-                <p>Правила могут изменяться со временен. Каждый игрок, играя на сервере, соглашается с правилами сервера.</p>
+                <p>Правила могут изменяться со временем. Каждый игрок, играя на сервере, соглашается с правилами сервера.</p>
             </div>
         </div>
     </div>
@@ -1202,7 +1037,6 @@
 let userTimezone = 'Europe/Warsaw'; // По умолчанию используем часовой пояс Польши
 let targetDate = new Date('2025-09-16T00:00:00Z'); // UTC время
 let lastSeconds = 0;
-let currentBlockStage = 0;
 
 // Функция для отображения экрана загрузки
 function showLoadingScreen() {
@@ -1261,27 +1095,6 @@ function populateTimezones() {
     });
 }
 
-// Функция для обновления состояния блока Minecraft
-function updateMinecraftBlock(remainingTime) {
-    const minecraftBlock = document.getElementById('minecraftBlock');
-    const blockCrack = document.getElementById('blockCrack');
-    
-    // Вычисляем общее время до запуска (примерно 90 дней)
-    const totalTime = 90 * 24 * 60 * 60 * 1000;
-    const progress = 1 - (remainingTime / totalTime);
-    
-    // Определяем стадию разрушения блока (0-5)
-    let stage = Math.floor(progress * 6);
-    stage = Math.min(5, Math.max(0, stage));
-    
-    // Если стадия изменилась, обновляем блок
-    if (stage !== currentBlockStage) {
-        minecraftBlock.className = `minecraft-block block-stage-${stage}`;
-        blockCrack.className = `block-crack crack-stage-${stage}`;
-        currentBlockStage = stage;
-    }
-}
-
 // Функция для расчета оставшегося времени с учетом часового пояса
 function countdownTimer() {
     const now = new Date();
@@ -1289,9 +1102,6 @@ function countdownTimer() {
     
     // Разница во времени
     const remainingTime = localTargetDate - now;
-
-    // Обновляем состояние блока Minecraft
-    updateMinecraftBlock(remainingTime);
 
     if (remainingTime <= 0) {
         document.getElementById('days').textContent = '00';
